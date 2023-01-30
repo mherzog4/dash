@@ -1,34 +1,189 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState } from 'react';
+import '@tremor/react/dist/esm/tremor.css';
+import {
+    BadgeDelta,
+    Card,
+    DeltaType,
+    Dropdown,
+    DropdownItem,
+    Flex,
+    MultiSelectBox,
+    MultiSelectBoxItem,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeaderCell,
+    TableRow,
+} from '@tremor/react';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
+export type SalesPerson = {
+    name: string,
+    leads: number,
+    sales: string,
+    quota: string,
+    variance: string,
+    region: string,
+    status: string,
+    deltaType: DeltaType,
 }
 
-export default App
+export const salesPeople: SalesPerson[] = [
+    {
+        name: 'Peter Doe',
+        leads: 45,
+        sales: '1,000,000',
+        quota: '1,200,000',
+        variance: 'low',
+        region: 'Region A',
+        status: 'overperforming',
+        deltaType: 'moderateIncrease',
+    },
+    {
+        name: 'Lena Whitehouse',
+        leads: 35,
+        sales: '900,000',
+        quota: '1,000,000',
+        variance: 'low',
+        region: 'Region B',
+        status: 'average',
+        deltaType: 'unchanged',
+    },
+    {
+        name: 'Phil Less',
+        leads: 52,
+        sales: '930,000',
+        quota: '1,000,000',
+        variance: 'medium',
+        region: 'Region C',
+        status: 'underperforming',
+        deltaType: 'moderateDecrease',
+    },
+    {
+        name: 'John Camper',
+        leads: 22,
+        sales: '390,000',
+        quota: '250,000',
+        variance: 'low',
+        region: 'Region A',
+        status: 'overperforming',
+        deltaType: 'increase',
+    },
+    {
+        name: 'Max Balmoore',
+        leads: 49,
+        sales: '860,000',
+        quota: '750,000',
+        variance: 'low',
+        region: 'Region B',
+        status: 'overperforming',
+        deltaType: 'increase',
+    },
+    {
+        name: 'Peter Moore',
+        leads: 82,
+        sales: '1,460,000',
+        quota: '1,500,000',
+        variance: 'low',
+        region: 'Region A',
+        status: 'average',
+        deltaType: 'unchanged',
+    },
+    {
+        name: 'Joe Sachs',
+        leads: 49,
+        sales: '1,230,000',
+        quota: '1,800,000',
+        variance: 'medium',
+        region: 'Region B',
+        status: 'underperforming',
+        deltaType: 'moderateDecrease',
+    },
+];
+
+export default function TableView() {
+    const [selectedStatus, setSelectedStatus] = useState('all');
+    const [selectedNames, setSelectedNames] = useState<string[]>([]);
+
+    const isSalesPersonSelected = (salesPerson: SalesPerson) => (
+        (salesPerson.status === selectedStatus || selectedStatus === 'all')
+            && (selectedNames.includes(salesPerson.name) || selectedNames.length === 0)
+    );
+
+    return (
+        <Card>
+            <div className="sm:mt-6 hidden sm:flex sm:justify-start sm:space-x-2">
+                <MultiSelectBox
+                    handleSelect={ (value) => setSelectedNames(value) }
+                    placeholder="Select Salespeople"
+                    maxWidth="max-w-xs"
+                >
+                    { salesPeople.map((item) => (
+                        <MultiSelectBoxItem key={ item.name } value={ item.name } text={ item.name } />
+                    )) }
+                </MultiSelectBox>
+                <Dropdown
+                    maxWidth="max-w-xs"
+                    defaultValue="all"
+                    handleSelect={ (value) => setSelectedStatus(value) }
+                >
+                    <DropdownItem value="all" text="All Performances" />
+                    <DropdownItem value="overperforming" text="Overperforming" />
+                    <DropdownItem value="average" text="Average" />
+                    <DropdownItem value="underperforming" text="Underperforming" />
+                </Dropdown>
+            </div>
+            <div className="mt-6 sm:hidden space-y-2 sm:space-y-0">
+                <MultiSelectBox
+                    handleSelect={ (value) => setSelectedNames(value) }
+                    placeholder="Select Salespeople"
+                    maxWidth="max-w-full"
+                >
+                    { salesPeople.map((item) => (
+                        <MultiSelectBoxItem key={ item.name } value={ item.name } text={ item.name } />
+                    )) }
+                </MultiSelectBox>
+                <Dropdown
+                    maxWidth="max-w-full"
+                    defaultValue="all"
+                    handleSelect={ (value) => setSelectedStatus(value) }
+                >
+                    <DropdownItem value="all" text="All Performances" />
+                    <DropdownItem value="overperforming" text="Overperforming" />
+                    <DropdownItem value="average" text="Average" />
+                    <DropdownItem value="underperforming" text="Underperforming" />
+                </Dropdown>
+            </div>
+            
+            <Table marginTop="mt-6">
+                <TableHead>
+                    <TableRow>
+                        <TableHeaderCell>Name</TableHeaderCell>
+                        <TableHeaderCell textAlignment="text-right">Leads</TableHeaderCell>
+                        <TableHeaderCell textAlignment="text-right">Sales ($)</TableHeaderCell>
+                        <TableHeaderCell textAlignment="text-right">Quota ($)</TableHeaderCell>
+                        <TableHeaderCell textAlignment="text-right">Variance</TableHeaderCell>
+                        <TableHeaderCell textAlignment="text-right">Region</TableHeaderCell>
+                        <TableHeaderCell textAlignment="text-right">Status</TableHeaderCell>
+                    </TableRow>
+                </TableHead>
+
+                <TableBody>
+                    { salesPeople.filter((item) => isSalesPersonSelected(item)).map((item) => (
+                        <TableRow key={ item.name }>
+                            <TableCell>{ item.name }</TableCell>
+                            <TableCell textAlignment="text-right">{ item.leads }</TableCell>
+                            <TableCell textAlignment="text-right">{ item.sales }</TableCell>
+                            <TableCell textAlignment="text-right">{ item.quota }</TableCell>
+                            <TableCell textAlignment="text-right">{ item.variance }</TableCell>
+                            <TableCell textAlignment="text-right">{ item.region }</TableCell>
+                            <TableCell textAlignment="text-right">
+                                <BadgeDelta deltaType={ item.deltaType } text={ item.status } size="xs" />
+                            </TableCell>
+                        </TableRow>
+                    )) }
+                </TableBody>
+            </Table>
+        </Card>
+    );
+}
