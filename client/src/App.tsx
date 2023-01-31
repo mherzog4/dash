@@ -1,5 +1,15 @@
 import { useState } from 'react';
+import Pipeline from './components/Pipeline'
+import Calls from './components/Calls'
+import Emails from './components/Emails'
+import Quota from './components/Quota'
 import '@tremor/react/dist/esm/tremor.css';
+import { ColGrid, Col, Text, Metric } from "@tremor/react";
+import CallConversion from './components/CallConversion'
+import EmailConversion from './components/EmailConversion'
+import Footer from './lib/Footer'
+import Home from './components/Home'
+
 import {
     BadgeDelta,
     Card,
@@ -111,79 +121,55 @@ export default function TableView() {
     );
 
     return (
+        <>
+        <Home />
+      <ColGrid
+        numCols={1}
+        numColsSm={2}
+        numColsLg={3}
+        gapX="gap-x-2"
+        gapY="gap-y-2"
+        >
+        <Col numColSpan={1} numColSpanLg={2}>
+          <Card>
+            <Text>Title</Text>
+            <Metric>Pipeline Generated</Metric>
+            <Pipeline />
+          </Card>
+        </Col>
         <Card>
-            <div className="sm:mt-6 hidden sm:flex sm:justify-start sm:space-x-2">
-                <MultiSelectBox
-                    handleSelect={ (value) => setSelectedNames(value) }
-                    placeholder="Select Salespeople"
-                    maxWidth="max-w-xs"
-                >
-                    { salesPeople.map((item) => (
-                        <MultiSelectBoxItem key={ item.name } value={ item.name } text={ item.name } />
-                    )) }
-                </MultiSelectBox>
-                <Dropdown
-                    maxWidth="max-w-xs"
-                    defaultValue="all"
-                    handleSelect={ (value) => setSelectedStatus(value) }
-                >
-                    <DropdownItem value="all" text="All Performances" />
-                    <DropdownItem value="overperforming" text="Overperforming" />
-                    <DropdownItem value="average" text="Average" />
-                    <DropdownItem value="underperforming" text="Underperforming" />
-                </Dropdown>
-            </div>
-            <div className="mt-6 sm:hidden space-y-2 sm:space-y-0">
-                <MultiSelectBox
-                    handleSelect={ (value) => setSelectedNames(value) }
-                    placeholder="Select Salespeople"
-                    maxWidth="max-w-full"
-                >
-                    { salesPeople.map((item) => (
-                        <MultiSelectBoxItem key={ item.name } value={ item.name } text={ item.name } />
-                    )) }
-                </MultiSelectBox>
-                <Dropdown
-                    maxWidth="max-w-full"
-                    defaultValue="all"
-                    handleSelect={ (value) => setSelectedStatus(value) }
-                >
-                    <DropdownItem value="all" text="All Performances" />
-                    <DropdownItem value="overperforming" text="Overperforming" />
-                    <DropdownItem value="average" text="Average" />
-                    <DropdownItem value="underperforming" text="Underperforming" />
-                </Dropdown>
-            </div>
-            
-            <Table marginTop="mt-6">
-                <TableHead>
-                    <TableRow>
-                        <TableHeaderCell>Name</TableHeaderCell>
-                        <TableHeaderCell textAlignment="text-right">Leads</TableHeaderCell>
-                        <TableHeaderCell textAlignment="text-right">Sales ($)</TableHeaderCell>
-                        <TableHeaderCell textAlignment="text-right">Quota ($)</TableHeaderCell>
-                        <TableHeaderCell textAlignment="text-right">Variance</TableHeaderCell>
-                        <TableHeaderCell textAlignment="text-right">Region</TableHeaderCell>
-                        <TableHeaderCell textAlignment="text-right">Status</TableHeaderCell>
-                    </TableRow>
-                </TableHead>
-
-                <TableBody>
-                    { salesPeople.filter((item) => isSalesPersonSelected(item)).map((item) => (
-                        <TableRow key={ item.name }>
-                            <TableCell>{ item.name }</TableCell>
-                            <TableCell textAlignment="text-right">{ item.leads }</TableCell>
-                            <TableCell textAlignment="text-right">{ item.sales }</TableCell>
-                            <TableCell textAlignment="text-right">{ item.quota }</TableCell>
-                            <TableCell textAlignment="text-right">{ item.variance }</TableCell>
-                            <TableCell textAlignment="text-right">{ item.region }</TableCell>
-                            <TableCell textAlignment="text-right">
-                                <BadgeDelta deltaType={ item.deltaType } text={ item.status } size="xs" />
-                            </TableCell>
-                        </TableRow>
-                    )) }
-                </TableBody>
-            </Table>
+          <Text>Title</Text>
+          <Metric>Calls</Metric>
+          <Quota />
         </Card>
+        <Card>
+          <Text>Title</Text>
+          <Metric>Calls</Metric>
+          <Calls />
+        </Card>
+        <Col>
+          <Card>
+            <Text>Title</Text>
+            <Metric>KPI 5</Metric>
+            <Emails />
+          </Card>
+        </Col>
+        <Card>
+          <Text>Title</Text>
+          <Metric>KPI 4</Metric>
+          <EmailConversion />
+        </Card>
+        <Card>
+          <Text>Title</Text>
+          <Metric>KPI 3</Metric>
+          <CallConversion />
+        </Card>
+        <Card>
+          <Text>Title</Text>
+          <Metric>KPI 3</Metric>
+          <Footer />
+        </Card>
+      </ColGrid>
+          </>
     );
 }
