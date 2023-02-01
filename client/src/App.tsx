@@ -122,7 +122,6 @@ export default function TableView() {
 
     return (
         <>
-        <Home />
       <ColGrid
         numCols={1}
         numColsSm={2}
