@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { Dialog } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import Login from './Login'
+import Login from "./Login";
 import Profile from "./Profile";
+import Logout from "./Logout";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -23,6 +24,7 @@ export default function Example() {
           viewBox="0 0 1155 678"
           xmlns="http://www.w3.org/2000/svg"
         >
+          <Logout />
           <path
             fill="url(#45de2b6b-92d5-4d68-a6a0-9b9b2abad533)"
             fillOpacity=".3"

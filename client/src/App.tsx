@@ -9,6 +9,8 @@ import CallConversion from './components/CallConversion'
 import EmailConversion from './components/EmailConversion'
 import Footer from './lib/Footer'
 import Home from './components/Home'
+import Profile from './components/Profile'
+import { useAuth0, isAuthenticated } from "@auth0/auth0-react";
 
 import {
     BadgeDelta,
@@ -120,8 +122,13 @@ export default function TableView() {
             && (selectedNames.includes(salesPerson.name) || selectedNames.length === 0)
     );
 
+    // const { isLoading } = useAuth();
+
+    // if (isLoading) return <div>Loading ... </div>
+
     return (
         <>
+      <Profile />
       <ColGrid
         numCols={1}
         numColsSm={2}

@@ -6,6 +6,12 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Home from "./components/Home"
 import ErrorPage from './components/ErrorPage';
+import * as dotenv from 'dotenv'
+
+const domain = import.meta.env.VITE_AUTH0_DOMAIN;
+
+const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID;
+
 
 const router = createBrowserRouter([
   {
@@ -13,21 +19,24 @@ const router = createBrowserRouter([
     element: <Home />,
     errorElement: <ErrorPage />
   },
+  {
+    path: "/Home",
+    element: <App />,
+    errorElement: <ErrorPage />
+  }
 ]);
 
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <Auth0Provider
-      domain="dev-ldf6m3kbmdhwppjt.us.auth0.com"
-      clientId="CH8jW7stpulWlOraOC1fLfNYUxmINj4h"
+      domain={domain}
+      clientId={clientId}
       authorizationParams={{
-        redirect_uri: window.location.origin,
+        redirect_uri: "http://localhost:5173/home" ,
       }}
     >
       <RouterProvider router={router} />
-
-      <App />
     </Auth0Provider>
   </React.StrictMode>
 );
