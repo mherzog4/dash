@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import Home from "./components/Home"
 import ErrorPage from './components/ErrorPage';
-import * as dotenv from 'dotenv'
+
 
 const domain = import.meta.env.VITE_AUTH0_DOMAIN;
 

@@ -10,7 +10,7 @@ import EmailConversion from './components/EmailConversion'
 import Footer from './lib/Footer'
 import Home from './components/Home'
 import Profile from './components/Profile'
-import { useAuth0, isAuthenticated } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 import {
     BadgeDelta,
